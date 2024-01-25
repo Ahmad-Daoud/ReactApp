@@ -1,0 +1,48 @@
+/* LabelModal.css */
+:root{
+    --main-color : white;
+    --secondary-color : black;
+    --whitesmoke-clr : whitesmoke;
+}
+.label-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .label-modal {
+    background: var(--main-color);
+    color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .existing-labels {
+    margin-top: 10px;
+  }
+  
+  .selected {
+    background-color: #3498db;
+    color: var(--main-color);
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 5px;
+    border-radius: 3px;
+  }
+  .deselected{
+    background-color: var(--whitesmoke-clr);
+    color: var(--secondary-color);
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 5px;
+    border-radius: 3px;
+  }  
+
+  

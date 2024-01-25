@@ -1,0 +1,129 @@
+:root{
+  --maincolorText : white;
+  --secondarycolorText : whitesmoke;
+}
+
+.Form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.Note-editable {
+  width: 100%;
+  border: none;
+  padding: 16px;
+  background: transparent;
+  color: inherit;
+}
+
+.Note-editable:focus-visible {
+  outline: 0;
+  box-shadow: inset 0px 0px 0px 2px var(--maincolorText);
+}
+
+.Note-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.Note-Check{
+  background: none;
+  border: none;
+  color :var(--maincolorText);
+}
+.Note-content {
+  flex-grow: 1;
+  resize: none;
+  font-family: inherit;
+}
+
+.Note-actions {
+  font-size: 14px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.Notes-list {
+  list-style: none;
+  padding: 0;
+}
+.addPageDiv{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.pageButtons{
+  background: none;
+  color: var(--maincolorText);
+  border: var(--secondarycolorText) solid 1px;
+}
+.Note-item {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 8px;
+}
+.Note-Title{
+  display: flex;
+  float :left;
+  color : var(--maincolorText);
+  text-decoration: none;
+}
+.Note-pin-button{
+  background: none;
+  border: none;
+  color: var(--maincolorText);
+}
+.Note-Pin{
+  color: var(--maincolorText);
+  background: none;
+  border: none !important;
+}
+.Note-link {
+  text-decoration: none;
+  color: var(--maincolorText);
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr 1fr;
+  align-items: center;
+}
+.highlightd {
+  color: red !important;
+}
+.delete-icon {
+  display: flex;
+  float : left;
+  background-color: none;
+  border: none;
+  background: none;
+  color: #b87d7d; /* Set the color you want for the delete icon */
+  cursor: pointer;
+}
+.deleteTitle{
+  color: black;
+}
+.deleteButtons{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+}
+.confirmButton{
+  background-color: rgba(32, 73, 32, 0.404);
+  color: var(--secondarycolorText);
+  height : 40px;
+}
+.cancelButton{
+  background-color: rgba(128, 53, 53, 0.534);
+  color: var(--secondarycolorText);
+  height : 40px;
+}
+.labelButton{
+  height: 60px;
+  background-color: ;
+}
+.Note-Label{
+  color: yellow;
+  font-size: 11px;
+}
