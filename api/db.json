@@ -1,35 +1,6 @@
 {
   "notes": [
     {
-      "labels": [
-        "Label2"
-      ],
-      "id": "1",
-      "inTrash": true
-    },
-    {
-      "id": "2",
-      "title": "Ma note 2",
-      "content": "Ecrivez ici ",
-      "dateCreated": "01/24/2024, 19:59:08",
-      "dateModified": "01/24/2024, 19:59:08",
-      "isPinned": false,
-      "isChecked": false,
-      "labels": [
-        "Label3"
-      ]
-    },
-    {
-      "id": "3",
-      "title": "Ma note 3",
-      "content": "Ecrivez ici ",
-      "dateCreated": "01/24/2024, 20:08:36",
-      "dateModified": "01/24/2024, 20:08:36",
-      "isPinned": false,
-      "isChecked": false,
-      "labels": [
-        "Label2"
-      ]
-    }
+      
   ]
 }
