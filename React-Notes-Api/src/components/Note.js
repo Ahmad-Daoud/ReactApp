@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import "./Note.css";
 import { useEffect, useState } from "react";
 import LabelModal from "./labelsModal";
+import styles from "./Loader.module.css"
+import Loader from "./loader";
 
 function Note({ onSaveSuccess }) {
   const { id } = useParams();
@@ -28,10 +30,20 @@ function Note({ onSaveSuccess }) {
     fetchNote();
   }, [id]);
 
+  async function fetchNote() {
+    try {
+      const response = await fetch(`http://localhost:4000/notes/${id}`);
+      const data = await response.json();
+      setNote(data);
+    } catch (error) {
+      console.error('Error fetching note:', error);
+    }
+  }
+
   async function saveNote() {
     try {
-      const currentDate = new Date();
-      note.dateModified = currentDate.toLocaleString();
+      const currentDate = new Date().toISOString();
+      note.dateModified = currentDate;
   
       await fetch(`http://localhost:4000/notes/${id}`, {
         method: "PUT",
@@ -53,7 +65,8 @@ function Note({ onSaveSuccess }) {
 
   if (!note) {
     // Chargement de la note
-    return "Chargement…";
+    // Place loader here
+    return <Loader />;
   }
 
 
@@ -97,10 +110,11 @@ function Note({ onSaveSuccess }) {
       </div>
       {showLabelModal && (
         <LabelModal
-          existingLabels={["Label1", "Label2", "Label3"]} 
+          existingLabels={["Travail", "Personnel", "Famille"]} 
           onSaveLabels={handleSaveLabels}
           onClose={() => setShowLabelModal(false)}
           noteId={id}
+          fetchNotes={fetchNote}
         />
       )}
     </div>
