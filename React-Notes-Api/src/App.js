@@ -15,7 +15,9 @@ function App() {
   const [maxPage, setMaxPage] = useState(1); 
 
 
-
+  const handleSaveSuccess = () => {
+    fetchNotes();
+  };
   const handleDeleteButtonClick = (id) => {
     setDeleteNoteId(id);
     setIsDeleteModalOpen(true);
@@ -30,22 +32,19 @@ function App() {
     setIsDeleteModalOpen(false);
   };
   async function fetchNotes() {
-    console.log("fetchingnotes");
     try {
       const response = await fetch("http://localhost:4000/notes");
       const data = await response.json();
+      console.log(data);
       const filteredNotes = data.filter((note) => !note?.inTrash);
       const pinnedNotes = filteredNotes.filter((note) => note?.isPinned);
       const unpinnedNotes = filteredNotes.filter((note) => !note?.isPinned);
+      console.log(unpinnedNotes);
       const sortedPinnedNotes = pinnedNotes.sort((a, b) => {
-        const dateA = new Date(a.dateModified);
-        const dateB = new Date(b.dateModified);
-        return dateB - dateA;
+        return new Date(b.dateModified).toISOString().localeCompare(new Date(a.dateModified).toISOString());
       });
       const sortedUnpinnedNotes = unpinnedNotes.sort((a, b) => {
-        const dateA = new Date(a.dateModified);
-        const dateB = new Date(b.dateModified);
-        return dateB - dateA;
+        return new Date(b.dateModified).toISOString().localeCompare(new Date(a.dateModified).toISOString());
       });
       const sortedNotes = [...sortedPinnedNotes, ...sortedUnpinnedNotes];
       setMaxPage(Math.ceil(sortedNotes.length / notesPerPage));
@@ -94,7 +93,7 @@ function App() {
   async function UpdateNoteInTrash(id) {
     try {
       const response = await fetch(`http://localhost:4000/notes/${id}`, {
-        method: "PATCH", // You can also use "PUT" depending on your server implementation
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -114,28 +113,18 @@ function App() {
     }
   }
   
-  function formatDate(date) {
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    };
-    return date.toLocaleString("en-US", options);
-  }
+
+
+
 
   async function AddNote() {
     let id = await findId();
-    const currentDate = new Date();
     const newNote = {
       id: String(id),
       title: "Nouvelle note ",
       content: "Ecrivez ici ",
-      dateCreated: formatDate(currentDate),
-      dateModified: formatDate(currentDate),
+      dateCreated: new Date().toISOString(),
+      dateModified: new Date().toISOString(),
       isPinned: false,
       isChecked: false,
       labels:[],
@@ -156,8 +145,8 @@ function App() {
       body: JSON.stringify({ title: createdNote.title }),
     };
     await fetch(`http://localhost:4000/notes/${createdNote.id}`, updateTitleRequestOptions);
-
     fetchNotes();
+    Navigate()
   }
 
   async function toggleNotePinned(id, isPinned) {
@@ -188,7 +177,7 @@ function App() {
   async function toggleNoteChecked(id, isChecked) {
     try {
       const response = await fetch(`http://localhost:4000/notes/${id}`, {
-        method: "PATCH", // You can also use "PUT" depending on your server implementation
+        method: "PATCH", 
         headers: {
           "Content-Type": "application/json",
         },
@@ -198,7 +187,6 @@ function App() {
       });
   
       if (response.ok) {
-        // After successful update, refetch the notes
         fetchNotes();
       } else {
         console.error(`Error updating note with id ${id}. Server response: ${response.statusText}`);
@@ -208,7 +196,7 @@ function App() {
     }
   }
   return (
-    <BrowserRouter>
+    <>
       <aside className="Side">
         <div>
           <div className="addPageDiv">
@@ -297,11 +285,8 @@ function App() {
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />
-      <LabelModal
-        fetchNotes={fetchNotes}
-      />
-
-    </BrowserRouter>
+    </>
+    
   );
 }
 export default App;
