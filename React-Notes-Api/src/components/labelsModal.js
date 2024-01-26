@@ -20,11 +20,11 @@ function LabelModal({ existingLabels, onSaveLabels, onClose, noteId, fetchNotes 
           "Content-Type": "application/json",
         },
       });
-      fetchNotes();
       if (!response.ok) {
         const errorResponse = await response.json();
         throw new Error(`Failed to update labels. Server error: ${JSON.stringify(errorResponse)}`);
       }
+      fetchNotes();
       onSaveLabels(selectedLabels);
       onClose(); 
     } catch (error) {
