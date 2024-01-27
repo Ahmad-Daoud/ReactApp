@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route, Link, Navigate, useParams} from "react-router-dom";
-import { useEffect, useState } from "react";
+import {  Routes, Route, Link, Navigate, useParams, useNavigate} from "react-router-dom";
+import { useEffect, useState, useCallback} from "react";
 import "./App.css";
 import Note from "./components/Note";
 import DeleteConfirmationModal from "./components/deleteModal";
-import LabelModal from "./components/labelsModal";
+
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -13,11 +13,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const notesPerPage = 10;
   const [maxPage, setMaxPage] = useState(1); 
+  const navigate = useNavigate();
 
-
-  const handleSaveSuccess = () => {
-    fetchNotes();
-  };
   const handleDeleteButtonClick = (id) => {
     setDeleteNoteId(id);
     setIsDeleteModalOpen(true);
@@ -31,7 +28,7 @@ function App() {
   const handleCancelDelete = () => {
     setIsDeleteModalOpen(false);
   };
-  async function fetchNotes() {
+  const fetchNotes = useCallback(async () => {
     try {
       const response = await fetch("http://localhost:4000/notes");
       const data = await response.json();
@@ -41,10 +38,10 @@ function App() {
       const unpinnedNotes = filteredNotes.filter((note) => !note?.isPinned);
       console.log(unpinnedNotes);
       const sortedPinnedNotes = pinnedNotes.sort((a, b) => {
-        return new Date(b.dateModified).toISOString().localeCompare(new Date(a.dateModified).toISOString());
+        return new Date(b.dateModified) - new Date(a.dateModified);
       });
       const sortedUnpinnedNotes = unpinnedNotes.sort((a, b) => {
-        return new Date(b.dateModified).toISOString().localeCompare(new Date(a.dateModified).toISOString());
+        return new Date(b.dateModified) - new Date(a.dateModified);
       });
       const sortedNotes = [...sortedPinnedNotes, ...sortedUnpinnedNotes];
       setMaxPage(Math.ceil(sortedNotes.length / notesPerPage));
@@ -53,17 +50,17 @@ function App() {
       const endIndex = startIndex + notesPerPage;
       const notesForCurrentPage = sortedNotes.slice(startIndex, endIndex);
       setNotes(notesForCurrentPage);
-
     } catch (error) {
       console.error('Error fetching notes:', error);
     }
-  }
+  }, [currentPage, notesPerPage]);
+  
   useEffect(function () {
     fetchNotes();
-  }, []);
+  }, [fetchNotes]);
   useEffect(() => {
     fetchNotes();
-  }, [currentPage]);
+  }, [currentPage, fetchNotes]);
   
   async function findId() {
     try {
@@ -112,11 +109,6 @@ function App() {
       console.error(`Error updating note with id ${id}:`, error);
     }
   }
-  
-
-
-
-
   async function AddNote() {
     let id = await findId();
     const newNote = {
@@ -145,10 +137,9 @@ function App() {
       body: JSON.stringify({ title: createdNote.title }),
     };
     await fetch(`http://localhost:4000/notes/${createdNote.id}`, updateTitleRequestOptions);
+    navigate(`/notes/${id}`);
     fetchNotes();
-    Navigate()
   }
-
   async function toggleNotePinned(id, isPinned) {
     try {
       const response = await fetch(`http://localhost:4000/notes/${id}`, {
@@ -171,9 +162,6 @@ function App() {
       console.error(`Error updating note with id ${id}:`, error);
     }
   }
-  
-
-
   async function toggleNoteChecked(id, isChecked) {
     try {
       const response = await fetch(`http://localhost:4000/notes/${id}`, {

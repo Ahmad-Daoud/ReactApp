@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import "./Note.css";
 import { useEffect, useState } from "react";
 import LabelModal from "./labelsModal";
-import styles from "./Loader.module.css"
 import Loader from "./loader";
 
 function Note({ onSaveSuccess }) {

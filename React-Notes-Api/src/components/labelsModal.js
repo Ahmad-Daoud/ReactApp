@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./LabelModal.css";
-import App from "../App";
 
-function LabelModal({ existingLabels, onSaveLabels, onClose, noteId, fetchNotes }) {
+
+function LabelModal({ existingLabels, onSaveLabels, onClose, noteId }) {
   const [selectedLabels, setSelectedLabels] = useState([]);
   const handleLabelClick = (label) => {
     if (selectedLabels.includes(label)) {
@@ -24,17 +24,12 @@ function LabelModal({ existingLabels, onSaveLabels, onClose, noteId, fetchNotes 
         const errorResponse = await response.json();
         throw new Error(`Failed to update labels. Server error: ${JSON.stringify(errorResponse)}`);
       }
-      fetchNotes();
       onSaveLabels(selectedLabels);
       onClose(); 
     } catch (error) {
       console.error("Error updating labels:", error);
     }
   };
-  const handleClose = () => {
-    console.log("Closing modal"); 
-  };
-  
   
   return (
     <div className="label-modal-overlay">
