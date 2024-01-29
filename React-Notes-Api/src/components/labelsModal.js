@@ -22,12 +22,12 @@ function LabelModal({ existingLabels, onSaveLabels, onClose, noteId }) {
       });
       if (!response.ok) {
         const errorResponse = await response.json();
-        throw new Error(`Failed to update labels. Server error: ${JSON.stringify(errorResponse)}`);
+        throw new Error(`Failed to update labels. Server error : ${JSON.stringify(errorResponse)}`);
       }
       onSaveLabels(selectedLabels);
       onClose(); 
     } catch (error) {
-      console.error("Error updating labels:", error);
+      console.error("Error updating labels : ", error);
     }
   };
   
@@ -49,7 +49,7 @@ function LabelModal({ existingLabels, onSaveLabels, onClose, noteId }) {
             ))}
           </div>
         </div>
-        <button onClick={handleSaveLabels}>Sauvegarder les Etiquettes</button>
+        <button onClick={handleSaveLabels}>Sauvegarder les Etiquettes.</button>
         <button onClick={onClose}>Fermer</button>
       </div>
     </div>
