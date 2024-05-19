@@ -45,23 +45,3 @@ Sure, here's a revised version of your README with correct syntax and styled cod
 4. **Le serveur API est prêt**
    - Le serveur démarrera sur le port 4000 et l'application pourra communiquer avec le serveur `json-server`.
 
-Voici un résumé des étapes:
-
-1. Naviguer dans le dossier du projet:
-   ```bash
-   cd React-Notes-App
-   ```
-
-2. Installer les dépendances et démarrer l'application:
-   ```bash
-   npm install
-   npm start
-   ```
-
-3. Installer et démarrer le serveur API:
-   ```bash
-   npm install -g json-server
-   json-server --watch db.json --port 4000
-   ```
-
-Votre application React Notes est maintenant prête à être utilisée!
